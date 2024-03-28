@@ -33,11 +33,13 @@ try:
     username = wait.until(EC.presence_of_element_located(
         (AppiumBy.XPATH, "//XCUIElementTypeTextField[@name='Username']")))
     username.send_keys("tomsmith")
-    password = driver.find_element(By.XPATH, "//XCUIElementTypeSecureTextField[@name='Password']")
+    password = driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeSecureTextField[@name='Password']")
     password.send_keys('SuperSecretPassword!')
-    driver.find_element(By.XPATH, "//XCUIElementTypeButton[contains(@name, 'Login')]").click()
-    wait.until(EC.presence_of_element_located((AppiumBy.XPATH, "//XCUIElementTypeStaticText[@name='Logout']"))).click()
-    # Skipping assertion, since a native driver session does not support the  url_to_be() method.
+    driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeButton[contains(@name, 'Login')]").click()
+    (wait.until(EC.presence_of_element_located(
+        (AppiumBy.XPATH, "//XCUIElementTypeStaticText[@name='Logout']"))).
+        click())
+    # Skipping assertion, since the native context does not support the  url_to_be() method.
     # Tried wait.until(EC.invisibility_of_element_located((AppiumBy.XPATH, "//XCUIElementTypeStaticText[@name='You logged into a secure area!']"))), but it didn't work.
     # Page source at this step only has the flash text with the '...logged into...', no sign of '...logged out...'
 finally:
